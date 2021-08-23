@@ -5,17 +5,19 @@ import os
 from numpy.random import rand, seed
 
 # constants
-PATH = "tmp/data/"
+PATH = "data/"
 FILENAME = "test_array_01.data"
 
 def check_dir(path):
-    if not os.path.exists(path):
+    try:
+	    os.path.exists(path)
+    except FileNotFoundError as FNFE:
         os.mkdir(path)
 
 # open a file and save a random array in it
 def main():
     size = 100
-    seed(0)
+    seed(10)
     rnd_array = rand(size)
 
     check_dir(PATH)
