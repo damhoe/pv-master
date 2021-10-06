@@ -145,13 +145,13 @@ def main():
                 radii = arange(rmin, rmax, step)
                 df = init_features(df, N, state, all_dist, radii)
 
-                df.to_csv("data_" + KEY + "_n-%.2f_" % n + ".csv")
+                df.to_csv("data/data_" + KEY + "_n-%.2f_" % n + ".csv")
             #state2file(state, locs, n, all_dist)
             #populations.append(Population(state, locs, n, mDist=all_dist))
 
     elapsed = time() - tStart
 
-    LOG_FILE_NAME = "Sim_" + KEY + ".log"
+    LOG_FILE_NAME = "log/Sim_" + KEY + ".log"
 
     log_file = open(LOG_FILE_NAME, "w+")
     log_file.write("Execution Time = %f\n" % elapsed)
