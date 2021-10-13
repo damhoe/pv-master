@@ -79,7 +79,7 @@ def mc_step(exp_all_dist, locs, state, N):
 def main():
 
     r0 = 0.21 # km
-    scale = 1.0 / 30
+    scale = 1.0 / 10
 
     NO = 300000
     N = int(NO * scale)
@@ -96,7 +96,7 @@ def main():
 
     # create pseudo-random locations
     locs = rand(N, 2) * L
-    all_dist = squareform(pdist(locs))
+    all_dist = squareform(np.asarray(pdist(locs), dtype='float32'))
 
     # initial state
     state = rand(N) < n0
@@ -117,7 +117,7 @@ def main():
     tStart = time()
 
     tol = 1e-3
-    ns = [0.02, 0.03, 0.05, 0.1]
+    ns = [0.02, 0.03, 0.05, 0.7, 0.1, 0.2]
 
     # for file names
     today = date.today()
@@ -145,13 +145,13 @@ def main():
                 radii = arange(rmin, rmax, step)
                 df = init_features(df, N, state, all_dist, radii)
 
-                df.to_csv("data_" + KEY + "_n-%.2f_" % n + ".csv")
+                df.to_csv("data/data_" + KEY + "_n-%.2f_" % n + ".csv")
             #state2file(state, locs, n, all_dist)
             #populations.append(Population(state, locs, n, mDist=all_dist))
 
     elapsed = time() - tStart
 
-    LOG_FILE_NAME = "Sim_" + KEY + ".log"
+    LOG_FILE_NAME = "log/Sim_" + KEY + ".log"
 
     log_file = open(LOG_FILE_NAME, "w+")
     log_file.write("Execution Time = %f\n" % elapsed)
