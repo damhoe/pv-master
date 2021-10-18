@@ -82,7 +82,7 @@ if __name__ == '__main__':
     #----------------
     # run simulation
     #----------------
-    n_steps = 10 # MC steps
+    n_steps = 20 # MC steps
 
     tol = 1e-3
     radii = np.logspace(np.log10(sqrt(N)/L), np.log10(L/4), 10, endpoint=True)
