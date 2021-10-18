@@ -28,7 +28,7 @@ def update(locs, state):
             loc = np.asarray([locs[i]])
             dmin = np.min(distance.cdist(loc, panels))
             #dmin = np.min(all_dist[i][state == 1])
-            scale = 0.2
+            scale = 0.04
             p = scale * np.exp(-dmin)
             r = rand()
             state[i] = 2 * int(p > r) # 2 if True, 0 else
@@ -49,6 +49,12 @@ def count_panels_at_fixed_distance(dmin, dmax, distance_matrix, state):
     return  float(np.mean(count)) / (dmin * dmin)
 
 
+def count_panels_with_fixed_dmin(dmin, dmax, DM1, DM2):
+    count = np.sum(np.logical_and(DM1 > dmin, DM1 < dmax), axis=1)
+    tot_count = np.sum(np.logical_and(DM2 > dmin, DM2 < dmax), axis=1)
+    return np.mean(count / tot_count)
+
+
 if __name__ == '__main__':
 
     seed(1)
@@ -56,7 +62,7 @@ if __name__ == '__main__':
     # initial panel density
     # at start of simulation
     # the reference density for the analysis is n=3%
-    f = 10
+    f = 500
     N = 1000 * f
     L = 20 * sqrt(f)
     n0 = 0.005
@@ -80,7 +86,8 @@ if __name__ == '__main__':
 
     tol = 1e-3
     radii = np.logspace(np.log10(sqrt(N)/L), np.log10(L/4), 10, endpoint=True)
-    data = np.array([], dtype='float64')
+    nr_fixed_distance = np.array([], dtype='float64')
+    nr_fixed_dmin = np.array([], dtype='float64')
 
     tStart = time()
     for step in range(n_steps):
@@ -89,22 +96,33 @@ if __name__ == '__main__':
         #densities.append(n)
         print("update # %d\t n=%.3f\n" % (step, n))
 
-        # evaluation
-        # ----------------------------------------------------------------
-        centers = locs[state==1]
+        panels = locs[state==1]
         new_panels = locs[state==2]
-        distance_matrix = distance.cdist(centers, new_panels)
+    
+        # evaluation 1
+        # ----------------------------------------------------------------
+        DM1 = distance.cdist(new_panels, panels)
+        DM2 = distance.cdist(new_panels, locs)
+        for k in range(len(radii) - 1):
+            count = count_panels_with_fixed_dmin(radii[k], radii[k+1], DM1, DM2)
+            nr_fixed_dmin = np.append(nr_fixed_dmin, [radii[k], count / sum(state==2)])
+            
+        # evaluation 2
+        # ----------------------------------------------------------------
+        distance_matrix = distance.cdist(panels, new_panels)
         for k in range(len(radii) - 1):
             count = count_panels_at_fixed_distance(radii[k], radii[k+1], distance_matrix, state)
-            data = np.append(data, [radii[k], count / sum(state==2)])
+            nr_fixed_distance = np.append(nr_fixed_distance, [radii[k], count / sum(state==2)])
 
     fState = "data/pop_state.csv"
     fLocs = "data/pop_locs.csv"
-    fData = "data/pop_data.csv"
+    fData1 = "data/pop_data_eval1.csv"
+    fData2 = "data/pop_data_eval2.csv"
 
     np.savetxt(fState, state, fmt="%d")
     np.savetxt(fLocs, locs)
-    np.savetxt(fData, data)
+    np.savetxt(fData2, nr_fixed_dmin)
+    np.savetxt(fData1, nr_fixed_distance)
 
     elapsed = time() - tStart
     print("Elapsed time %f" % elapsed)
