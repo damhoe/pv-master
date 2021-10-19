@@ -36,7 +36,7 @@ def update(locs, state):
     print("# new panels  Np = %d\n" % sum(state==2))
 
 
-def count_panels_at_fixed_distance(dmin, dmax, distance_matrix, state):
+def count_panels_at_fixed_distance(dmin, dmax, new_panels, panels):
     #tol = 1. # km
     #if d < tol: raise Exception("Negative distance encountered.")
     #dmin = d - tol
@@ -45,13 +45,37 @@ def count_panels_at_fixed_distance(dmin, dmax, distance_matrix, state):
     #d_array = distance.cdist(np.asarray(p0), panels)[0]
     #helper = all_dist[state==1]
     #tot_count = np.sum(np.logical_and(helper < dmax, helper > dmin), axis=1)
-    count = np.sum(np.logical_and(distance_matrix < dmax, distance_matrix > dmin), axis=1)
+    count = np.asarray([])
+    for p in panels:
+        M1 = distance.cdist(np.asarray([p]), new_panels) # Mem scales as N
+        c = np.sum(np.logical_and(M1 > dmin, M1 < dmax), axis=1)
+        np.append(count, c[0])
+    
     return  float(np.mean(count)) / (dmin * dmin)
 
 
-def count_panels_with_fixed_dmin(dmin, dmax, DM1, DM2):
-    count = np.sum(np.logical_and(DM1 > dmin, DM1 < dmax), axis=1)
-    tot_count = np.sum(np.logical_and(DM2 > dmin, DM2 < dmax), axis=1)
+def count_panels_with_fixed_dmin(dmin, dmax, new_panels, panels, locs):
+    # distance.cdist(new_panels, panels) scales with N^2
+    # which let mem rsc increase immensly
+    # alternitive: use for loop
+    # old:
+    # ----
+    #DM1 = distance.cdist(new_panels, panels)
+    #DM2 = distance.cdist(new_panels, locs)
+    #count = np.sum(np.logical_and(DM1 > dmin, DM1 < dmax), axis=1)
+    #tot_count = np.sum(np.logical_and(DM2 > dmin, DM2 < dmax), axis=1)
+    # new:
+    # ----
+    count = np.asarray([])
+    tot_count = np.asarray([])
+    for p in new_panels:
+        M1 = distance.cdist(np.asarray([p]), panels) # Mem scales as N
+        M2 = distance.cdist(np.asarrray([p]), locs)
+        c = np.sum(np.logical_and(M1 > dmin, M1 < dmax), axis=1)
+        tc = np.sum(np.logical_and(M2 > dmin, M2 < dmax), axis=1)
+        np.append(count, c[0])
+        np.append(tot_count, tc[0])
+
     return np.mean(count / tot_count)
 
 
@@ -101,17 +125,14 @@ if __name__ == '__main__':
     
         # evaluation 1
         # ----------------------------------------------------------------
-        DM1 = distance.cdist(new_panels, panels)
-        DM2 = distance.cdist(new_panels, locs)
         for k in range(len(radii) - 1):
-            count = count_panels_with_fixed_dmin(radii[k], radii[k+1], DM1, DM2)
+            count = count_panels_with_fixed_dmin(radii[k], radii[k+1], new_panels, panels, locs)
             nr_fixed_dmin = np.append(nr_fixed_dmin, [radii[k], count / sum(state==2)])
             
         # evaluation 2
         # ----------------------------------------------------------------
-        distance_matrix = distance.cdist(panels, new_panels)
         for k in range(len(radii) - 1):
-            count = count_panels_at_fixed_distance(radii[k], radii[k+1], distance_matrix, state)
+            count = count_panels_at_fixed_distance(radii[k], radii[k+1], new_panels, panels)
             nr_fixed_distance = np.append(nr_fixed_distance, [radii[k], count / sum(state==2)])
 
     fState = "data/pop_state.csv"
