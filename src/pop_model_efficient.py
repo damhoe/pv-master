@@ -49,7 +49,7 @@ def count_panels_at_fixed_distance(dmin, dmax, new_panels, panels):
     for p in panels:
         M1 = distance.cdist(np.asarray([p]), new_panels) # Mem scales as N
         c = np.sum(np.logical_and(M1 > dmin, M1 < dmax), axis=1)
-        np.append(count, c[0])
+        count = np.append(count, c[0])
     
     return  float(np.mean(count)) / (dmin * dmin)
 
@@ -70,11 +70,11 @@ def count_panels_with_fixed_dmin(dmin, dmax, new_panels, panels, locs):
     tot_count = np.asarray([])
     for p in new_panels:
         M1 = distance.cdist(np.asarray([p]), panels) # Mem scales as N
-        M2 = distance.cdist(np.asarrray([p]), locs)
+        M2 = distance.cdist(np.asarray([p]), locs)
         c = np.sum(np.logical_and(M1 > dmin, M1 < dmax), axis=1)
         tc = np.sum(np.logical_and(M2 > dmin, M2 < dmax), axis=1)
-        np.append(count, c[0])
-        np.append(tot_count, tc[0])
+        count = np.append(count, c[0])
+        tot_count = np.append(tot_count, tc[0])
 
     return np.mean(count / tot_count)
 
@@ -86,7 +86,7 @@ if __name__ == '__main__':
     # initial panel density
     # at start of simulation
     # the reference density for the analysis is n=3%
-    f = 200
+    f = 1000
     N = 1000 * f
     L = 20 * sqrt(f)
     n0 = 0.005
@@ -135,15 +135,15 @@ if __name__ == '__main__':
             count = count_panels_at_fixed_distance(radii[k], radii[k+1], new_panels, panels)
             nr_fixed_distance = np.append(nr_fixed_distance, [radii[k], count / sum(state==2)])
 
-    fState = "data/pop_state.csv"
-    fLocs = "data/pop_locs.csv"
-    fData1 = "data/pop_data_eval1.csv"
-    fData2 = "data/pop_data_eval2.csv"
+    fState = "data/sim1000k/pop_state.csv"
+    fLocs = "data/sim1000k/pop_locs.csv"
+    fData1 = "data/sim1000k/pop_data_eval1.csv"
+    fData2 = "data/sim1000k/pop_data_eval2.csv"
 
-    #np.savetxt(fState, state, fmt="%d")
-    #np.savetxt(fLocs, locs)
-    #np.savetxt(fData2, nr_fixed_dmin)
-    #np.savetxt(fData1, nr_fixed_distance)
+    np.savetxt(fState, state, fmt="%d")
+    np.savetxt(fLocs, locs)
+    np.savetxt(fData2, nr_fixed_dmin)
+    np.savetxt(fData1, nr_fixed_distance)
 
     elapsed = time() - tStart
     print("Elapsed time %f" % elapsed)
