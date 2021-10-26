@@ -86,7 +86,7 @@ if __name__ == '__main__':
     # initial panel density
     # at start of simulation
     # the reference density for the analysis is n=3%
-    f = 500
+    f = 1000
     N = 1000 * f
     L = 20 * sqrt(f)
     n0 = 0.005
@@ -135,10 +135,10 @@ if __name__ == '__main__':
             count = count_panels_at_fixed_distance(radii[k], radii[k+1], new_panels, panels)
             nr_fixed_distance = np.append(nr_fixed_distance, [radii[k], count / sum(state==2)])
 
-    fState = "data/sim500k/pop_state_1overr.csv"
-    fLocs = "data/sim500k/pop_locs_1overr.csv"
-    fData1 = "data/sim500k/pop_data_eval1_1overr.csv"
-    fData2 = "data/sim500k/pop_data_eval2_1overr.csv"
+    fState = "data/sim1000k/pop_state_1overr.csv"
+    fLocs = "data/sim1000k/pop_locs_1overr.csv"
+    fData1 = "data/sim1000k/pop_data_eval1_1overr.csv"
+    fData2 = "data/sim1000k/pop_data_eval2_1overr.csv"
 
     np.savetxt(fState, state, fmt="%d")
     np.savetxt(fLocs, locs)
