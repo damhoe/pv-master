@@ -29,7 +29,7 @@ def update(locs, state):
             dmin = np.min(distance.cdist(loc, panels))
             #dmin = np.min(all_dist[i][state == 1])
             scale = 0.04
-            p = scale * 1.0/((4.8 * dmin)*(4.8 * dmin)) #np.exp(-dmin)
+            p = scale * 1.0/((2. * dmin)*(2. * dmin)) #np.exp(-dmin)
             r = rand()
             state[i] = 2 * int(p > r) # 2 if True, 0 else
             #if state[i] == 2: print(dmin, p, r, locs[i])
