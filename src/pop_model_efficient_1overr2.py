@@ -18,7 +18,9 @@ def density(state): # state: boolean 1-D array
     int_state = array(state, dtype='int32')
     return  float(sum(int_state)) / N
 
-
+"""
+@Override
+"""
 def update(locs, state):
     panels = locs[state==1]
     for i, panel in enumerate(state):
@@ -38,7 +40,7 @@ def update(locs, state):
 
 def count_panels_at_fixed_distance(dmin, dmax, new_panels, panels):
     #tol = 1. # km
-    #if d < tol: raise Exception("Negative distance encountered.")
+    #if d < tol: raise Exception ("Negative distance encountered.")
     #dmin = d - tol
     #dmax = d + tol
 
@@ -52,7 +54,6 @@ def count_panels_at_fixed_distance(dmin, dmax, new_panels, panels):
         count = np.append(count, c[0])
     
     return  float(np.mean(count)) / (dmin * dmin)
-
 
 def count_panels_with_fixed_dmin(dmin, dmax, new_panels, panels, locs):
     # distance.cdist(new_panels, panels) scales with N^2
