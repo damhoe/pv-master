@@ -9,14 +9,14 @@ from scipy.spatial import distance
 def main():
     # load data
     # load data
-    fState = "data/sim1000k/pop_state.csv"
-    fLocs = "data/sim1000k/pop_locs.csv"
+    #fState = "data/sim1000k/pop_state.csv"
+    #fLocs = "data/sim1000k/pop_locs.csv"
 
     # fState = "data/sim1000k/pop_state_1overr.csv"
     # fLocs = "data/sim1000k/pop_locs_1overr.csv"
 
-    # fState = "data/sim1000k/pop_state_1overr2.csv"
-    # fLocs = "data/sim1000k/pop_locs_1overr2.csv"
+    fState = "data/sim1000k/pop_state_1overr2.csv"
+    fLocs = "data/sim1000k/pop_locs_1overr2.csv"
 
     state = np.loadtxt(fState)
     locs = np.loadtxt(fLocs)
@@ -43,9 +43,9 @@ def main():
     data = np.asarray(data)
 
     # save data
-    fData = "data/sim1000k/pop_data_panel_distr.csv"
+    #fData = "data/sim1000k/pop_data_panel_distr.csv"
     #fData = "data/sim1000k/pop_data_panel_distr_1overr.csv"
-    #fData = "data/sim1000k/pop_data_panel_distr_1overr2.csv"
+    fData = "data/sim1000k/pop_data_panel_distr_1overr2.csv"
     np.savetxt(fData, data)
 
 
