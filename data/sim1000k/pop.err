@@ -5,3 +5,4 @@
 ### and                                                                       ###
 ###   https://docs.anaconda.com/anaconda/user-guide/faq/#installing-anaconda  ###
 #################################################################################
+slurmstepd: error: *** JOB 21109067 ON cs-i14c03b12 CANCELLED AT 2021-11-02T18:27:38 DUE TO TIME LIMIT ***
