@@ -29,7 +29,7 @@ def update(locs, state):
             loc = np.asarray([locs[i]])
             dmin = np.min(distance.cdist(loc, panels))
             #dmin = np.min(all_dist[i][state == 1])
-            scale = 0.04
+            scale = 0.08
             p = scale * 1.0/(4.8 * dmin) #np.exp(-dmin)
             r = rand()
             state[i] = 2 * int(p > r) # 2 if True, 0 else
@@ -90,7 +90,7 @@ if __name__ == '__main__':
     f = 1000
     N = 1000 * f
     L = 20 * sqrt(f)
-    n0 = 0.005
+    n0 = 0.001
 
     locs = rand(N, 2) * L
     #all_dist = squareform(pdist(locs))
@@ -117,7 +117,7 @@ if __name__ == '__main__':
     tStart = time()
     save = True
 
-    dir = "data/sim10k/history/"
+    dir = "data/sim1000k/history/"
     if not dir:
         os.makedirs(dir)
 
