@@ -2,6 +2,7 @@
 from time import time
 
 import numpy as np
+import os
 
 from numpy import array, dot, exp, sqrt
 from numpy.random import rand, seed
@@ -114,6 +115,12 @@ if __name__ == '__main__':
     nr_fixed_dmin = np.array([], dtype='float64')
 
     tStart = time()
+    save = True
+
+    dir = "data/sim10k/history/"
+    if not dir:
+        os.makedirs(dir)
+
     for step in range(n_steps):
         update(locs, state)
         n = density(state)
@@ -123,27 +130,33 @@ if __name__ == '__main__':
         panels = locs[state==1]
         new_panels = locs[state==2]
     
-        # evaluation 1
-        # ----------------------------------------------------------------
-        for k in range(len(radii) - 1):
-            count = count_panels_with_fixed_dmin(radii[k], radii[k+1], new_panels, panels, locs)
-            nr_fixed_dmin = np.append(nr_fixed_dmin, [radii[k], count / sum(state==2)])
-            
-        # evaluation 2
-        # ----------------------------------------------------------------
-        for k in range(len(radii) - 1):
-            count = count_panels_at_fixed_distance(radii[k], radii[k+1], new_panels, panels)
-            nr_fixed_distance = np.append(nr_fixed_distance, [radii[k], count / sum(state==2)])
+        if save: 
+            fState = dir + "pop_state_%d.csv" % step
+            np.savetxt(fState, state, fmt="%d")
 
-    fState = "data/sim1000k/pop_state_1overr.csv"
-    fLocs = "data/sim1000k/pop_locs_1overr.csv"
-    fData1 = "data/sim1000k/pop_data_eval1_1overr.csv"
-    fData2 = "data/sim1000k/pop_data_eval2_1overr.csv"
+        save = not save
+
+        # # evaluation 1
+        # # ----------------------------------------------------------------
+        # for k in range(len(radii) - 1):
+        #     count = count_panels_with_fixed_dmin(radii[k], radii[k+1], new_panels, panels, locs)
+        #     nr_fixed_dmin = np.append(nr_fixed_dmin, [radii[k], count / sum(state==2)])
+            
+        # # evaluation 2
+        # # ----------------------------------------------------------------
+        # for k in range(len(radii) - 1):
+        #     count = count_panels_at_fixed_distance(radii[k], radii[k+1], new_panels, panels)
+        #     nr_fixed_distance = np.append(nr_fixed_distance, [radii[k], count / sum(state==2)])
+
+    fState = dir + "pop_state_1overr_final.csv"
+    fLocs = dir + "pop_locs_1overr_final.csv"
+    # fData1 = "data/sim1000k/pop_data_eval1_1overr.csv"
+    # fData2 = "data/sim1000k/pop_data_eval2_1overr.csv"
 
     np.savetxt(fState, state, fmt="%d")
     np.savetxt(fLocs, locs)
-    np.savetxt(fData2, nr_fixed_dmin)
-    np.savetxt(fData1, nr_fixed_distance)
+    # np.savetxt(fData2, nr_fixed_dmin)
+    # np.savetxt(fData1, nr_fixed_distance)
 
     elapsed = time() - tStart
     print("Elapsed time %f" % elapsed)
