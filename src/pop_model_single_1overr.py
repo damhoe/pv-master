@@ -80,6 +80,17 @@ def count_panels_with_fixed_dmin(dmin, dmax, new_panels, panels, locs):
     return np.mean(count / tot_count)
 
 
+def is_in_center(x, y, L):
+    # check if x, y is inside the center
+    # center is from L/2 - L/100 to L/2 + L/100
+    low = L/2 - L/100
+    up = L/2 + L/100
+    xcond = x > low and x < up
+    ycond = y > low and y < up
+    return xcond and ycond
+
+
+
 if __name__ == '__main__':
 
     seed(1)
@@ -90,13 +101,23 @@ if __name__ == '__main__':
     f = 1000
     N = 1000 * f
     L = 20 * sqrt(f)
-    n0 = 0.001
+    #n0 = 0.001
 
     locs = rand(N, 2) * L
     #all_dist = squareform(pdist(locs))
 
+    # get index of a location in the center
+    index = 0
+    for i, R in enumerate(locs):
+        if is_in_center(R[0], R[1], L):
+            index = i
+            break
+
+
     # initial state
-    state = np.array(rand(N) < n0, dtype='int32')
+    state = np.zeros(N)
+    state[index] = 1
+    #state = np.array(rand(N) < n0, dtype='int32')
 
     n_real = density(state)
     print("Real inital desity n_i = %.4f\n" % n_real)
@@ -117,9 +138,7 @@ if __name__ == '__main__':
     tStart = time()
     save = True
 
-    dir = "data/sim1000k/history/"
-    if not dir:
-        os.makedirs(dir)
+    dir = "data/sim1000k/single/"
 
     for step in range(n_steps):
         update(locs, state)

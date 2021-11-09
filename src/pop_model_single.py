@@ -30,7 +30,7 @@ def update(locs, state):
             dmin = np.min(distance.cdist(loc, panels))
             #dmin = np.min(all_dist[i][state == 1])
             scale = 0.08
-            p = scale * 1.0/(4.8 * dmin) #np.exp(-dmin)
+            p = scale * np.exp(-dmin)
             r = rand()
             state[i] = 2 * int(p > r) # 2 if True, 0 else
             #if state[i] == 2: print(dmin, p, r, locs[i])
@@ -80,6 +80,16 @@ def count_panels_with_fixed_dmin(dmin, dmax, new_panels, panels, locs):
     return np.mean(count / tot_count)
 
 
+def is_in_center(x, y, L):
+    # check if x, y is inside the center
+    # center is from L/2 - L/100 to L/2 + L/100
+    low = L/2 - L/100
+    up = L/2 + L/100
+    xcond = x > low and x < up
+    ycond = y > low and y < up
+    return xcond and ycond
+
+
 if __name__ == '__main__':
 
     seed(1)
@@ -87,16 +97,26 @@ if __name__ == '__main__':
     # initial panel density
     # at start of simulation
     # the reference density for the analysis is n=3%
-    f = 1000
+    f = 10
     N = 1000 * f
     L = 20 * sqrt(f)
-    n0 = 0.001
+    #n0 = 0.001
 
     locs = rand(N, 2) * L
     #all_dist = squareform(pdist(locs))
 
+    # get index of a location in the center
+    index = 0
+    for i, R in enumerate(locs):
+        if is_in_center(R[0], R[1], L):
+            index = i
+            break
+
+
     # initial state
-    state = np.array(rand(N) < n0, dtype='int32')
+    state = np.zeros(N)
+    state[index] = 1
+    #state = np.array(rand(N) < n0, dtype='int32')
 
     n_real = density(state)
     print("Real inital desity n_i = %.4f\n" % n_real)
@@ -107,7 +127,7 @@ if __name__ == '__main__':
     #----------------
     # run simulation
     #----------------
-    n_steps = 20 # MC steps
+    n_steps = 40 # MC steps
 
     tol = 1e-3
     radii = np.logspace(np.log10(sqrt(N)/L), np.log10(L/4), 10, endpoint=True)
@@ -117,9 +137,7 @@ if __name__ == '__main__':
     tStart = time()
     save = True
 
-    dir = "data/sim1000k/history/"
-    if not dir:
-        os.makedirs(dir)
+    dir = "data/sim1000k/single/"
 
     for step in range(n_steps):
         update(locs, state)
@@ -131,32 +149,32 @@ if __name__ == '__main__':
         new_panels = locs[state==2]
     
         if save: 
-            fState = dir + "pop_state_1overr_%d.csv" % step
+            fState = dir + "pop_state_%d.csv" % step
             np.savetxt(fState, state, fmt="%d")
 
         save = not save
 
-        # # evaluation 1
-        # # ----------------------------------------------------------------
-        # for k in range(len(radii) - 1):
-        #     count = count_panels_with_fixed_dmin(radii[k], radii[k+1], new_panels, panels, locs)
-        #     nr_fixed_dmin = np.append(nr_fixed_dmin, [radii[k], count / sum(state==2)])
+        # evaluation 1
+        # ----------------------------------------------------------------
+        #for k in range(len(radii) - 1):
+        #    count = count_panels_with_fixed_dmin(radii[k], radii[k+1], new_panels, panels, locs)
+        #    nr_fixed_dmin = np.append(nr_fixed_dmin, [radii[k], count / sum(state==2)])
             
-        # # evaluation 2
-        # # ----------------------------------------------------------------
-        # for k in range(len(radii) - 1):
-        #     count = count_panels_at_fixed_distance(radii[k], radii[k+1], new_panels, panels)
-        #     nr_fixed_distance = np.append(nr_fixed_distance, [radii[k], count / sum(state==2)])
+        # evaluation 2
+        # ----------------------------------------------------------------
+        #for k in range(len(radii) - 1):
+        #    count = count_panels_at_fixed_distance(radii[k], radii[k+1], new_panels, panels)
+        #    nr_fixed_distance = np.append(nr_fixed_distance, [radii[k], count / sum(state==2)])
 
-    fState = dir + "pop_state_1overr_final.csv"
-    fLocs = dir + "pop_locs_1overr_final.csv"
-    # fData1 = "data/sim1000k/pop_data_eval1_1overr.csv"
-    # fData2 = "data/sim1000k/pop_data_eval2_1overr.csv"
+    fState = dir + "pop_state_final.csv"
+    fLocs = dir + "pop_locs_final.csv"
+    #fData1 = "data/sim10k/history/pop_data_eval1.csv"
+    #fData2 = "data/sim10k/history/pop_data_eval2.csv"
 
     np.savetxt(fState, state, fmt="%d")
     np.savetxt(fLocs, locs)
-    # np.savetxt(fData2, nr_fixed_dmin)
-    # np.savetxt(fData1, nr_fixed_distance)
+    #np.savetxt(fData2, nr_fixed_dmin)
+    #np.savetxt(fData1, nr_fixed_distance)
 
     elapsed = time() - tStart
     print("Elapsed time %f" % elapsed)

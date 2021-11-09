@@ -131,7 +131,7 @@ if __name__ == '__main__':
         new_panels = locs[state==2]
 
         if save: 
-            fState = dir + "pop_state_%d.csv" % step
+            fState = dir + "pop_state_1overr2_%d.csv" % step
             np.savetxt(fState, state, fmt="%d")
 
         save = not save
