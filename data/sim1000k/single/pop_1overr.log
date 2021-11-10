@@ -1,0 +1,85 @@
+Real inital desity n_i = 0.0000
+
+# new panels  Np = 89
+
+update # 0	 n=0.000
+
+# new panels  Np = 96
+
+update # 1	 n=0.000
+
+# new panels  Np = 715
+
+update # 2	 n=0.002
+
+# new panels  Np = 1034
+
+update # 3	 n=0.003
+
+# new panels  Np = 2223
+
+update # 4	 n=0.006
+
+# new panels  Np = 3339
+
+update # 5	 n=0.011
+
+# new panels  Np = 4599
+
+update # 6	 n=0.017
+
+# new panels  Np = 6076
+
+update # 7	 n=0.024
+
+# new panels  Np = 7557
+
+update # 8	 n=0.033
+
+# new panels  Np = 9116
+
+update # 9	 n=0.044
+
+# new panels  Np = 10578
+
+update # 10	 n=0.056
+
+# new panels  Np = 12317
+
+update # 11	 n=0.070
+
+# new panels  Np = 13542
+
+update # 12	 n=0.085
+
+# new panels  Np = 14779
+
+update # 13	 n=0.101
+
+# new panels  Np = 16090
+
+update # 14	 n=0.118
+
+# new panels  Np = 17051
+
+update # 15	 n=0.136
+
+# new panels  Np = 17848
+
+update # 16	 n=0.155
+
+# new panels  Np = 18551
+
+update # 17	 n=0.174
+
+# new panels  Np = 19535
+
+update # 18	 n=0.195
+
+# new panels  Np = 20116
+
+update # 19	 n=0.215
+
+Elapsed time 6138.655731
+Real final density n = 0.2154
+

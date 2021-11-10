@@ -97,7 +97,7 @@ if __name__ == '__main__':
     # initial panel density
     # at start of simulation
     # the reference density for the analysis is n=3%
-    f = 10
+    f = 1000
     N = 1000 * f
     L = 20 * sqrt(f)
     #n0 = 0.001
