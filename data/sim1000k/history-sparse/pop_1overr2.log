@@ -1,0 +1,133 @@
+Real inital desity n_i = 0.0001
+
+# new panels  Np = 174
+
+update # 0	 n=0.000
+
+# new panels  Np = 134
+
+update # 1	 n=0.001
+
+# new panels  Np = 289
+
+update # 2	 n=0.001
+
+# new panels  Np = 360
+
+update # 3	 n=0.001
+
+# new panels  Np = 525
+
+update # 4	 n=0.002
+
+# new panels  Np = 680
+
+update # 5	 n=0.003
+
+# new panels  Np = 919
+
+update # 6	 n=0.004
+
+# new panels  Np = 1118
+
+update # 7	 n=0.005
+
+# new panels  Np = 1472
+
+update # 8	 n=0.007
+
+# new panels  Np = 1761
+
+update # 9	 n=0.009
+
+# new panels  Np = 2262
+
+update # 10	 n=0.012
+
+# new panels  Np = 2665
+
+update # 11	 n=0.015
+
+# new panels  Np = 3245
+
+update # 12	 n=0.019
+
+# new panels  Np = 3869
+
+update # 13	 n=0.023
+
+# new panels  Np = 4518
+
+update # 14	 n=0.029
+
+# new panels  Np = 5095
+
+update # 15	 n=0.034
+
+# new panels  Np = 5977
+
+update # 16	 n=0.041
+
+# new panels  Np = 6814
+
+update # 17	 n=0.049
+
+# new panels  Np = 7692
+
+update # 18	 n=0.057
+
+# new panels  Np = 8652
+
+update # 19	 n=0.067
+
+# new panels  Np = 9629
+
+update # 20	 n=0.078
+
+# new panels  Np = 10803
+
+update # 21	 n=0.090
+
+# new panels  Np = 11791
+
+update # 22	 n=0.102
+
+# new panels  Np = 12811
+
+update # 23	 n=0.116
+
+# new panels  Np = 14064
+
+update # 24	 n=0.131
+
+# new panels  Np = 14969
+
+update # 25	 n=0.147
+
+# new panels  Np = 16117
+
+update # 26	 n=0.165
+
+# new panels  Np = 17000
+
+update # 27	 n=0.183
+
+# new panels  Np = 18124
+
+update # 28	 n=0.202
+
+# new panels  Np = 18981
+
+update # 29	 n=0.222
+
+# new panels  Np = 19931
+
+update # 30	 n=0.242
+
+# new panels  Np = 20676
+
+update # 31	 n=0.264
+
+Elapsed time 9364.199969
+Real final density n = 0.2639
+
