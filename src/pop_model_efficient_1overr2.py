@@ -90,7 +90,7 @@ if __name__ == '__main__':
     f = 1000
     N = 1000 * f
     L = 20 * sqrt(f)
-    n0 = 0.001
+    n0 = 0.0001
 
     locs = rand(N, 2) * L
     #all_dist = squareform(pdist(locs))
@@ -107,7 +107,7 @@ if __name__ == '__main__':
     #----------------
     # run simulation
     #----------------
-    n_steps = 20 # MC steps
+    n_steps = 32 # MC steps
 
     tol = 1e-3
     radii = np.logspace(np.log10(sqrt(N)/L), np.log10(L/4), 10, endpoint=True)
@@ -116,8 +116,8 @@ if __name__ == '__main__':
 
     tStart = time()
     
-    save = True
-    dir = "data/sim1000k/history/"
+    save_count = 0
+    dir = "data/sim1000k/history-sparse/"
     if not dir:
         os.makedirs(dir)
 
@@ -129,12 +129,14 @@ if __name__ == '__main__':
 
         panels = locs[state==1]
         new_panels = locs[state==2]
-
+        
+        save = save_count == 0
         if save: 
             fState = dir + "pop_state_1overr2_%d.csv" % step
             np.savetxt(fState, state, fmt="%d")
+            save_count = 4
 
-        save = not save
+        save_count -= 1
 
         # # evaluation 1
         # # ----------------------------------------------------------------

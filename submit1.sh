@@ -5,8 +5,8 @@
 #SBATCH --mem=60gb
 #SBATCH --job-name=hoedtke_sim_pv_e
 #SBATCH --account=compacts
-#SBATCH --output=data/sim1000k/history/pop_1overr.log
-#SBATCH --error=data/sim1000k/history/pop_1overr.err
+#SBATCH --output=data/sim1000k/history-sparse/pop_1overr.log
+#SBATCH --error=data/sim1000k/history-sparse/pop_1overr.err
 #SBATCH --workdir=/home/damianho/projects/git/PV_master/
 
 module load anaconda/2020.07
