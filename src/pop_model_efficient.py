@@ -20,7 +20,7 @@ def density(state): # state: boolean 1-D array
 
 
 def calc_p(dmin, method):
-    scale = 0.1 # results in n=1.x after 32 iterations (sparse)
+    scale = 0.2 # results in n=1.x after 32 iterations (sparse)
     if method == "exp":
         return scale * np.exp(-dmin)
     elif method == "1overr":
@@ -45,6 +45,34 @@ def update(locs, state, method):
             #if state[i] == 2: print(dmin, p, r, locs[i])
     n_new = sum(state==2) 
     return n_new
+
+
+
+def BC(state, L):
+    Lx = L
+    Ly = L
+    n = np.sum(state != 0) / state.size
+    
+    start = np.log10(L * 1./2**6)
+    end = np.log10(L * 1./2**8)
+    scales=np.logspace(start, end, 10)
+    x0 = scales[0]
+    x1 = scales[2]
+    
+    data = locs[state != 0]
+            
+    scale = x0
+    H, edges=np.histogramdd(data, bins=(np.arange(0,Lx+scale/2,scale),np.arange(0,Ly+scale/2,scale)))
+    count0 = np.sum(H>0)
+    
+    scale = x1
+    H, edges=np.histogramdd(data, bins=(np.arange(0,Lx+scale/2,scale),np.arange(0,Ly+scale/2,scale)))
+    count1 = np.sum(H>0)
+    
+    dx = np.log(1./x1) - np.log(1./x0)
+    dy = np.log(count1) - np.log(count0)
+    return dy / dx
+
 
 if __name__ == '__main__':
 
@@ -85,20 +113,32 @@ if __name__ == '__main__':
     if not os.path.isdir(dir):
         os.makedirs(dir)
 
-    fState = dir + "state_seed_1_initial.csv"
-    fLocs = dir + "locs_seed_1.csv"
+    fState = dir + "state_initial.csv"
+    fLocs = dir + "locs.csv"
     np.savetxt(fState, state, fmt="%d")
     np.savetxt(fLocs, locs)
 
-    n_steps = 32 # MC steps
+    fBC = dir + "BC.txt"
+
+    save_densities = [0.6, 0.2, 0.15] #- stol
+    stol = 0.1
+    n_steps = 50 # MC steps
     for step in range(n_steps):
         n_new = update(locs, state, method)
         n = density(state)
         print("update # %d\t n=%.4f" % (step+1, n))
 
         # save state
-        fState = dir + "state_seed_1_iter_%d.csv" % (step+1)
-        np.savetxt(fState, state, fmt="%d")
+        for ni in save_densities:
+            if abs(n - ni) < stol:
+                fState = dir + "state_iter_%d.csv" % (step+1)
+                np.savetxt(fState, state, fmt="%d")
+                save_densities.remove(ni)
+
+        # BC
+        count = BC(state, L)
+        with open(fBC, "a+") as file:
+            file.write("%d %.5f %.6f\n" % (step, n, count))
 
     n_final = density(state)
     print("Real final density n = %.4f\n" % n_final)

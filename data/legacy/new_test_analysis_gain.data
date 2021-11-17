@@ -1,0 +1,20 @@
+## Density Gain
+Trained Random Forest with n_est=100.
+--- Test Sample Size: 	 250
+--- Train Sample Size: 	 750
+
+--> Score: 	 0.99
+
+Radius,Mean,Std
+0.95,-0.0131,0.0793
+1.48,0.1641,0.0581
+2.01,-0.0097,0.0546
+2.54,0.0002,0.0388
+3.07,0.0864,0.0685
+3.60,0.0207,0.0164
+4.13,0.0345,0.0190
+4.66,-0.0024,0.0387
+5.19,0.0206,0.0036
+5.71,0.0136,0.0034
+
+ Analysis failed -> not converging

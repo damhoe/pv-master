@@ -1,7 +1,0 @@
-#################################################################################
-### conda added to PATH. Use 'source activate' rather than 'conda activate'   ###
-### Do not run 'conda init' if prompted unless you have read and understood:  ###
-###   /p/system/packages/anaconda/2020.07/bin/conda init --help               ###
-### and                                                                       ###
-###   https://docs.anaconda.com/anaconda/user-guide/faq/#installing-anaconda  ###
-#################################################################################
