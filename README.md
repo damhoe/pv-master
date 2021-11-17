@@ -1,4 +1,4 @@
-# PV-Master
+# pv-master
 Master thesis repo on PV module distribution
 
 ## Folder
