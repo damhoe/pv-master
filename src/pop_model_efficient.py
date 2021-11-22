@@ -51,14 +51,11 @@ def update(locs, state, method):
 def BC(state, L):
     Lx = L
     Ly = L
-    n = np.sum(state != 0) / state.size
-    
-    start = np.log10(L * 1./2**6)
-    end = np.log10(L * 1./2**8)
-    scales=np.logspace(start, end, 10)
-    x0 = scales[0]
-    x1 = scales[2]
-    
+    #n = np.sum(state != 0) / state.size
+
+    x0 = 2*np.exp(1)
+    x1 = np.exp(1)
+
     data = locs[state != 0]
             
     scale = x0
