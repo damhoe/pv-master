@@ -1,0 +1,13 @@
+#################################################################################
+### conda added to PATH. Use 'source activate' rather than 'conda activate'   ###
+### Do not run 'conda init' if prompted unless you have read and understood:  ###
+###   /p/system/packages/anaconda/2020.07/bin/conda init --help               ###
+### and                                                                       ###
+###   https://docs.anaconda.com/anaconda/user-guide/faq/#installing-anaconda  ###
+#################################################################################
+Traceback (most recent call last):
+  File "src/pop_model_efficient.py", line 124, in <module>
+    n_new = update(locs, state, method)
+  File "src/pop_model_efficient.py", line 44, in update
+    state[i] = 2 * int(p > r) # 2 if True, 0 else
+TypeError: '>' not supported between instances of 'NoneType' and 'float'
