@@ -116,6 +116,9 @@ if __name__ == '__main__':
     np.savetxt(fLocs, locs)
 
     fBC = dir + "BC.txt"
+    # clear file
+    with open(fBC, "w+") as file:
+        file.write("")
 
     save_densities = [0.6, 0.2, 0.15] #- stol
     stol = 0.1
