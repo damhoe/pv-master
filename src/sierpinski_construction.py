@@ -58,7 +58,9 @@ def main(N):
     data = np.random.rand(D * N).reshape(N, D) * (1.0 + 1.0) - 1.0
     selected = data
 
-    t = Triangle(-1.0, -1.0, 1.0, -1.0, 0.0, 1.0)
+    sqrt3h = 0.5 * np.sqrt(3)
+    t = Triangle(-1.0, -sqrt3h, 1.0, -sqrt3h, 0.0, sqrt3h)
+    #t = Triangle(-1.0, -1.0, 1.0, -1.0, 0.0, 1.0)
     print(f'{t.area():.2f}')
     print(f'{t.check_p(1, 2)}')
 
