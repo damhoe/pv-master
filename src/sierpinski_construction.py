@@ -77,7 +77,7 @@ def main(N):
         triangle_list = sierpinski(triangle_list)
 
     # save results
-    fname = f'data\sierpinski\points_{N}.csv'
+    fname = f'data/sierpinski/points_{N}.csv'
     np.savetxt(fname, selected, fmt='%.18e')
 
 
